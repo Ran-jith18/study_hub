@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StudyHub - Course Guide</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+:root{--ink:#20253a;--purple:#5b4bdb;--lavender:#eeeaff;--mint:#dff7ee}
+body{font-family:Arial,sans-serif;background:#f5f7fb;color:var(--ink)}
+.navbar{background:#fff}.brand{font-weight:800;color:var(--purple)}
+.hero{padding:78px 20px;background:radial-gradient(circle at 15% 20%,#fff 0 10%,transparent 30%),linear-gradient(135deg,#ded8ff,#f8f9ff 65%,#dff7ee)}
+.hero h1{font-size:clamp(2.2rem,5vw,3.5rem);font-weight:800}.hero h1:after{content:"";display:block;width:70px;height:5px;border-radius:5px;background:var(--purple);margin:18px auto 0}
+.section{padding:60px 20px}.card{border:0;border-radius:18px;box-shadow:0 10px 28px rgba(32,37,58,.09);height:100%}.eyebrow{color:var(--purple);font-weight:800;letter-spacing:1px;text-transform:uppercase;font-size:.78rem}
+.topic-number{width:42px;height:42px;border-radius:50%;background:var(--lavender);color:var(--purple);font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.material-card{border-left:5px solid var(--purple);background:#fff}.material-card code{background:var(--lavender);color:var(--ink);padding:3px 7px;border-radius:5px}.check-item{display:flex;gap:12px;align-items:flex-start;padding:14px 0;border-bottom:1px solid #eee}.check-item:last-child{border-bottom:0}.check-item input{width:20px;height:20px;margin-top:2px;accent-color:var(--purple)}
+.progress{height:10px}.quiz-shell{background:var(--ink);color:#fff;border-radius:22px}.quiz-option{background:#fff;color:var(--ink);border:2px solid transparent;border-radius:12px;padding:13px 15px;margin:10px 0;cursor:pointer;transition:.2s}.quiz-option:hover{border-color:var(--purple);transform:translateX(3px)}.quiz-option.correct{background:#c9f4df;border-color:#198754}.quiz-option.wrong{background:#ffd9d9;border-color:#dc3545}.btn-main{background:var(--purple);color:#fff;border-radius:25px;padding:11px 23px}.btn-main:hover{background:#4839c2;color:#fff}footer{background:var(--ink);color:#fff;padding:25px}
+</style>
+</head>
+<body>
+<nav class="navbar shadow-sm sticky-top">
+<div class="container"><a class="navbar-brand brand" href="index.html">StudyHub</a><a class="btn btn-outline-secondary rounded-pill" href="index.html#courses">Choose another course</a></div>
+</nav>
+
+<section class="hero text-center">
+<div class="container"><p class="eyebrow mb-2">Your study guide</p><h1 id="courseTitle">Course Guide</h1><p id="courseIntro" class="lead mb-0">Important topics to study first.</p></div>
+</section>
+
+<section class="section">
+<div class="container">
+<div class="row g-4">
+<div class="col-lg-7"><p class="eyebrow mb-2">Study before testing yourself</p><h2 class="mb-4">Topics to study before the quiz</h2><div id="topics"></div></div>
+<div class="col-lg-5"><div class="card p-4"><p class="eyebrow mb-2">Your progress</p><h3>Study checklist</h3><p class="text-muted">Tick each step as you complete it.</p><div id="checklist"></div><div class="progress mt-3"><div id="progressBar" class="progress-bar" style="width:0%;background:#5b4bdb"></div></div><p id="completion" class="fw-bold mt-3 mb-0" style="color:#5b4bdb"></p></div></div>
+</div>
+</div>
+</section>
+
+<section class="section bg-white"><div class="container"><p class="eyebrow mb-2">Study material</p><h2 class="mb-4">Learn the key ideas</h2><div id="materials" class="row g-4"></div><div class="text-center mt-5"><p id="practiceText" class="lead">Review the topics, then test yourself with a small project.</p><a class="btn btn-main" href="#courseQuiz">I am ready for the quiz</a></div></div></section>
+
+<section id="courseQuiz" class="section"><div class="container"><div class="quiz-shell p-4 p-md-5"><div class="d-flex justify-content-between align-items-start gap-3 flex-wrap"><div><p class="text-uppercase mb-2" style="color:#bfb7ff">Practice lab</p><h2 class="mb-2">Course quiz</h2><p class="mb-0 text-white-50">Answer the questions generated for your selected course.</p></div><span id="quizScore" class="badge rounded-pill text-bg-light p-3">Score: 0/0</span></div><div id="quizQuestions" class="mt-4"></div><div class="d-flex gap-2 mt-4 flex-wrap"><button id="newQuiz" class="btn btn-light rounded-pill">Generate new quiz</button><button id="resetQuiz" class="btn btn-outline-light rounded-pill">Reset answers</button></div><p id="quizFeedback" class="fw-bold mt-3 mb-0"></p></div></div></section>
+<footer class="text-center"><p class="mb-1">StudyHub | Web Intelligence Practical</p><small>Ranjith | 24BCT149 | Sri Krishna Arts and Science College</small></footer>
+
+<script>
+const courseData={
+ "Python Basics":{intro:"Build a strong programming foundation by studying these concepts in order.",topics:["Variables and data types","Conditions and decision making","Loops and iteration","Functions and reusable code","Lists, dictionaries and basic problem solving"],materials:[["Variables","A variable stores a value that your program can use later.","name = 'Ranjith'"],["Conditions","Use if and else to make a program choose between actions.","if marks >= 40: print('Pass')"],["Functions","Functions package a repeated task into a reusable block of code.","def greet(name): return 'Hi ' + name"]],practice:"Write a simple calculator or marks calculator using functions.",questions:[["Which keyword defines a function in Python?",["func","def","function","method"],1],["Which data type stores True or False?",["String","Integer","Boolean","List"],2],["What does a loop help you do?",["Repeat instructions","Create a database","Style a page","Store images"],0]]},
+ "MySQL":{intro:"Learn how data is stored, connected and retrieved from relational databases.",topics:["Database and table design","SELECT queries and filtering","INSERT, UPDATE and DELETE","Primary keys and relationships","JOIN, grouping and aggregate functions"],materials:[["Tables","A table stores related records in rows and describes them with columns.","CREATE TABLE students (id INT PRIMARY KEY)"],["SELECT","SELECT reads data from one or more tables and WHERE filters the result.","SELECT name FROM students WHERE mark > 40;"],["Relationships","Keys connect tables so related information can be queried together.","JOIN courses ON students.course_id = courses.id"]],practice:"Design a student database and write queries to find useful records.",questions:[["Which command reads records?",["SELECT","PUSH","READALL","OPEN"],0],["What uniquely identifies a row?",["Foreign key","Primary key","Group key","Sort key"],1],["Which clause filters rows?",["ORDER BY","WHERE","VALUES","TABLE"],1]]},
+ "Web Development":{intro:"Understand the building blocks of responsive and interactive websites.",topics:["HTML structure and semantic elements","CSS selectors, layout and responsive design","Bootstrap components and grid system","JavaScript events and DOM manipulation","Forms, accessibility and basic debugging"],materials:[["HTML","HTML gives content meaning and structure through elements such as headings and sections.","<h1>StudyHub</h1>"],["CSS","CSS controls the visual style, spacing and responsive layout of a page.",".card { padding: 20px; }"],["JavaScript","JavaScript responds to user actions and can update the page through the DOM.","button.onclick = () => alert('Done');"]],practice:"Build a responsive student profile page with a working form.",questions:[["What does HTML provide?",["Page structure","Database storage","Server hosting","Image editing"],0],["Which language styles a webpage?",["HTML","CSS","SQL","Python"],1],["What does JavaScript make possible?",["Interactivity","Only headings","Database tables","File compression"],0]]}
+};
+const params=new URLSearchParams(window.location.search);const course=params.get("course")||"Python Basics";const data=courseData[course]||courseData["Python Basics"];
+document.title="StudyHub - "+course;document.getElementById("courseTitle").textContent=course;document.getElementById("courseIntro").textContent=data.intro;document.getElementById("practiceText").textContent=data.practice;
+document.getElementById("topics").innerHTML=data.topics.map((topic,index)=>`<div class="card p-3 mb-3"><div class="d-flex gap-3 align-items-center"><div class="topic-number">${index+1}</div><div><h5 class="mb-1">${topic}</h5><p class="text-muted mb-0">Understand the basics, practise with examples and revise your notes.</p></div></div></div>`).join("");
+document.getElementById("materials").innerHTML=data.materials.map(material=>`<div class="col-md-4"><article class="card material-card p-4"><p class="eyebrow">Core idea</p><h4>${material[0]}</h4><p>${material[1]}</p><code>${material[2]}</code></article></div>`).join("");
+const storageKey="studyhub-"+course;const saved=JSON.parse(localStorage.getItem(storageKey)||"[]");document.getElementById("checklist").innerHTML=data.topics.map((topic,index)=>`<label class="check-item"><input type="checkbox" data-index="${index}" ${saved.includes(index)?"checked":""}><span>${topic}</span></label>`).join("");
+const boxes=[...document.querySelectorAll("#checklist input")];function updateProgress(){const done=boxes.filter(box=>box.checked).length;document.getElementById("completion").textContent=done+" of "+boxes.length+" topics completed";document.getElementById("progressBar").style.width=(done/boxes.length*100)+"%";localStorage.setItem(storageKey,JSON.stringify(boxes.filter(box=>box.checked).map(box=>Number(box.dataset.index)));}boxes.forEach(box=>box.addEventListener("change",updateProgress));updateProgress();
+let quizQuestions=[];function shuffle(items){return [...items].sort(()=>Math.random()-.5);}function renderQuiz(){quizQuestions=shuffle(data.questions);document.getElementById("quizQuestions").innerHTML=quizQuestions.map((question,index)=>`<div class="quiz-question mb-4" data-answer="${question[2]}"><h5>${index+1}. ${question[0]}</h5>${question[1].map((option,optionIndex)=>`<div class="quiz-option" data-option="${optionIndex}">${option}</div>`).join("")}</div>`).join("");document.querySelectorAll(".quiz-option").forEach(option=>option.addEventListener("click",checkAnswer));document.getElementById("quizFeedback").textContent="Choose an answer for each question.";updateScore();}function checkAnswer(event){const option=event.currentTarget;const question=option.parentElement;if(question.dataset.done)return;question.dataset.done="true";const correct=Number(question.dataset.answer)===Number(option.dataset.option);option.classList.add(correct?"correct":"wrong");if(!correct)question.querySelector(`[data-option='${question.dataset.answer}']`).classList.add("correct");document.getElementById("quizFeedback").textContent=correct?"Correct. Keep going!":"Not quite. The correct answer is highlighted.";updateScore();}function updateScore(){const answered=[...document.querySelectorAll(".quiz-question[data-done]")];const correct=answered.filter(question=>question.querySelector(".correct")?.dataset.option===question.dataset.answer).length;document.getElementById("quizScore").textContent="Score: "+correct+"/"+quizQuestions.length;}document.getElementById("newQuiz").addEventListener("click",renderQuiz);document.getElementById("resetQuiz").addEventListener("click",renderQuiz);renderQuiz();
+</script>
+</body>
+</html>
